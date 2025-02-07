@@ -1,4 +1,5 @@
 import yt_dlp
+import os
 
 def download(url, output_path):
     ydl_opts = {
@@ -8,11 +9,17 @@ def download(url, output_path):
             'preferredcodec': 'mp3',
             'preferredquality': '192',
         }],
-        'ffmpeg_location': 'bin/ffmpeg.exe',  # Update this path to the location of your ffmpeg executable
         'outtmpl': f'{output_path}/song.%(ext)s',  # Specify the output file name and path
     }
 
     def dwl_vid(video_url):
+        # Ensure the directory exists
+        if not os.path.exists(output_path):
+            os.makedirs(output_path)
+        
+        output_file = f'{output_path}/song.mp3'
+        if os.path.exists(output_file):
+            os.remove(output_file)  # Delete the existing file if it exists
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             ydl.download([video_url])
 
