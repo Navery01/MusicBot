@@ -1,5 +1,0 @@
-Traceback (most recent call last):
-  File "/home/nvavery/source/PedroBotV1_0/MusicBot/MusicBot/main.py", line 12, in <module>
-    with open('token.txt', 'r') as file:
-         ^^^^^^^^^^^^^^^^^^^^^^
-FileNotFoundError: [Errno 2] No such file or directory: 'token.txt'
