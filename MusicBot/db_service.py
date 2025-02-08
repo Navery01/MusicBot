@@ -109,6 +109,7 @@ class DBService:
             print('[SQL] Getting points')
             cursor.execute("SELECT points FROM points WHERE user_id = %s AND guild_id = %s;", (user_id, guild_id))
             points = cursor.fetchone()
+            print(points)
             cursor.close()
             if not points:
                 print('[SQL] No points found')
