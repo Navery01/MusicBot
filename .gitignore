@@ -5,3 +5,4 @@ token.txt
 bin/ffmpeg.exe
 bin/ffplay.exe
 bin/ffprobe.exe
+*.out
