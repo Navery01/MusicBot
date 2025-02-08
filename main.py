@@ -3,7 +3,9 @@ from discord.ext import commands
 import os
 import asyncio
 
-from music import music_cog
+from MusicBot.music import music_cog
+from MusicBot.event_cog import event_cog
+from MusicBot.token_cog import token_cog
 
 intents = discord.Intents.all()
 
@@ -21,6 +23,8 @@ async def on_ready():
 async def main():
     async with bot:
         await bot.add_cog(music_cog(bot))
+        await bot.add_cog(event_cog(bot))
+        await bot.add_cog(token_cog(bot))
         await bot.start(token)
 
 

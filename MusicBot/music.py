@@ -5,6 +5,8 @@ from youtubesearchpython import VideosSearch
 from yt_dlp import YoutubeDL
 import asyncio
 
+from MusicBot.db_service import DBService
+
 class music_cog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -20,6 +22,8 @@ class music_cog(commands.Cog):
 
         self.vc = None
         self.ytdl = YoutubeDL(self.YDL_OPTIONS)
+        print('[Music Cog] Initialized')
+        self.db = DBService()
 
      #searching the item on youtube
     def search_yt(self, item):
@@ -73,6 +77,11 @@ class music_cog(commands.Cog):
 
     @commands.command(name="play", aliases=["p","playing"], help="Plays a selected song from youtube")
     async def play(self, ctx, *args):
+        if self.db.get_points(ctx.guild.id, ctx.author.id) < 10:
+            await ctx.send('Not enough points')
+            return
+        
+        self.db.update_points(ctx.guild.id, ctx.author.id, -10)
         query = " ".join(args)
         try:
             voice_channel = ctx.author.voice.channel
