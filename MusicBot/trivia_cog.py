@@ -73,7 +73,7 @@ class trivia_cog(commands.Cog):
         for i, answer in self.answer_dict.items():
             retval += f'{i+1}) {answer} \n'
 
-        await ctx.send(f'***{html.unescape(self.current_question['question'])}***')
+        await ctx.send(f'***{html.unescape(self.current_question["question"])}***')
         await ctx.send(f'**{retval}**')
     
     @commands.command(name='answer', aliases=['ans'], help='Answers the current trivia question')
@@ -92,7 +92,7 @@ class trivia_cog(commands.Cog):
         
         if answer.lower() == self.current_question['correct_answer'].lower():
             award_points = diff_val[self.current_question['difficulty'].lower()]
-            await ctx.send(f'{ctx.author.mention} has answered the {self.current_question['difficulty']} question correctly! **+{award_points}** points!')
+            await ctx.send(f'{ctx.author.mention} has answered the {self.current_question["difficulty"]} question correctly! **+{award_points}** points!')
             self.db.update_points(guild_id, user_id, award_points)
             total_points = self.db.get_points(guild_id, user_id)
             await ctx.send(f'New balance: {total_points} points!')
