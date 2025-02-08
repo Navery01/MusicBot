@@ -110,19 +110,6 @@ class trivia_cog(commands.Cog):
         self.current_question = None
         self.answer_dict = None
 
-    
-    # @commands.command(name='hint', aliases=['h'], help='Requests a hint for the current trivia question')
-    # async def hint(self, ctx):
-    #     await ctx.send('Hint requested')
-
-    # @commands.command(name='skip', aliases=['s'], help='Skips the current trivia question')
-    # async def skip(self, ctx):
-    #     await ctx.send('Question skipped')
-
-    # @commands.command(name='stop', aliases=['end'], help='Ends the trivia game')
-    # async def stop(self, ctx):
-    #     await ctx.send('Trivia game ended')
-
 
 if __name__ == '__main__':
     intents = discord.Intents.all()
