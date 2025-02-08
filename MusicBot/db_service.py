@@ -14,14 +14,14 @@ class DBService:
     
 
     def create_table(self, table_name, columns):
-        cursor = self.db.cursor()
+        cursor = self.db.cursor(buffered=True)
         cursor.execute(f"CREATE TABLE IF NOT EXISTS {table_name} ({columns});")
         cursor.close()
 
         self.db.commit()
 
     def add_user(self, guild_id, user_id, user_name):
-        cursor = self.db.cursor()
+        cursor = self.db.cursor(buffered=True)
         try:
             if self.get_user(guild_id, user_id):
                 print('[SQL] User already exists')
@@ -41,14 +41,14 @@ class DBService:
         self.db.commit()
 
     def get_user(self, guild_id, user_id):
-        cursor = self.db.cursor()
+        cursor = self.db.cursor(buffered=True)
         cursor.execute("SELECT * FROM users WHERE user_id = %s AND guild_id = %s;", (user_id, guild_id))
         user = cursor.fetchone()
         cursor.close()
         return user
     
     def add_guild(self, guild_id, guild_name):
-        cursor = self.db.cursor()
+        cursor = self.db.cursor(buffered=True)
         try:
             if self.get_guild(guild_id):
                 print('[SQL] Guild already exists')
@@ -68,14 +68,14 @@ class DBService:
         self.db.commit()
     
     def get_guild(self, guild_id):
-        cursor = self.db.cursor()
+        cursor = self.db.cursor(buffered=True)
         cursor.execute("SELECT * FROM guilds WHERE guild_id = %s;", (guild_id,))
         guild = cursor.fetchone()
         cursor.close()
         return guild
     
     def init_points(self, guild_id, user_id):
-        cursor = self.db.cursor()
+        cursor = self.db.cursor(buffered=True)
         cursor.execute("INSERT INTO points (user_id, guild_id, points) VALUES (%s, %s, 100);", (user_id, guild_id))
         print('[SQL] Points added')
         cursor.close()
@@ -83,7 +83,7 @@ class DBService:
 
 
     def add_points(self, guild_id, user_id, points):
-        cursor = self.db.cursor()
+        cursor = self.db.cursor(buffered=True)
         try:
             if self.get_points(guild_id, user_id):
                 cursor.execute("UPDATE points SET points = points + %s WHERE user_id = %s AND guild_id = %s;", (points, user_id, guild_id))
@@ -105,10 +105,11 @@ class DBService:
     
     def get_points(self, guild_id, user_id):
         try:
-            cursor = self.db.cursor()
+            cursor = self.db.cursor(buffered=True)
             print('[SQL] Getting points')
             cursor.execute("SELECT points FROM points WHERE user_id = %s AND guild_id = %s;", (user_id, guild_id))
             points = cursor.fetchone()
+            print(f'[SQL] Points: {points}')
             cursor.close()
             if not points:
                 print('[SQL] No points found')
@@ -125,7 +126,7 @@ class DBService:
         if num_pts < points:
             return
         
-        cursor = self.db.cursor()
+        cursor = self.db.cursor(buffered=True)
         print('[SQL] Updating points')
         cursor.execute("UPDATE points SET points = points + %s WHERE user_id = %s AND guild_id = %s;", (points, user_id, guild_id))
         print('[SQL] Points updated')
