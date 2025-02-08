@@ -78,6 +78,8 @@ class trivia_cog(commands.Cog):
     
     @commands.command(name='answer', aliases=['ans'], help='Answers the current trivia question')
     async def answer(self, ctx, *answer: str):
+        diff_val = {'easy': 10, 'medium': 25, 'hard': 50}
+
         if self.current_question is None:
             await ctx.send('Use !trivia for a new question')
             return
@@ -89,8 +91,9 @@ class trivia_cog(commands.Cog):
         user_id = ctx.author.id
         
         if answer.lower() == self.current_question['correct_answer'].lower():
-            await ctx.send(f'{ctx.author.mention} has answered the question correctly!')
-            self.db.update_points(guild_id, user_id, 10)
+            award_points = diff_val[self.current_question['difficulty'].lower()]
+            await ctx.send(f'{ctx.author.mention} has answered the {self.current_question['difficulty']} question correctly! **+{award_points}** points!')
+            self.db.update_points(guild_id, user_id, award_points)
             total_points = self.db.get_points(guild_id, user_id)
             await ctx.send(f'New balance: {total_points} points!')
         else:
