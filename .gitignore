@@ -6,3 +6,4 @@ bin/ffmpeg.exe
 bin/ffplay.exe
 bin/ffprobe.exe
 *.yml
+*.out
