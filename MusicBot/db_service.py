@@ -110,7 +110,6 @@ class DBService:
             cursor.execute("SELECT points FROM points WHERE user_id = %s AND guild_id = %s;", (user_id, guild_id))
             points = cursor.fetchone()
             print(f'[SQL] Points: {points}')
-            cursor.close()
             if not points:
                 print('[SQL] No points found')
                 print('[SQL] Initializing points')
@@ -119,6 +118,7 @@ class DBService:
         except mysql.Error as err:
             print(err.msg)
             return None
+        cursor.close()
         return points[0]
     
     def update_points(self, guild_id, user_id, points):
