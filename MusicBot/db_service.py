@@ -105,11 +105,10 @@ class DBService:
     
     def get_points(self, guild_id, user_id):
         try:
-            cursor = self.db.cursor(buffered=True)
+            cursor = self.db.cursor(buffered=True)  
             print('[SQL] Getting points')
             cursor.execute("SELECT points FROM points WHERE user_id = %s AND guild_id = %s;", (user_id, guild_id))
             points = cursor.fetchone()
-            print(f'[SQL] Points: {points}')
             if not points:
                 print('[SQL] No points found')
                 print('[SQL] Initializing points')
