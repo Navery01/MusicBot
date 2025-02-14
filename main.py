@@ -1,5 +1,5 @@
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
 import os
 import asyncio
 
@@ -16,16 +16,14 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 with open('token.txt', 'r') as file:
     token = file.read()
 
-@bot.loop(hours = 1)
+@tasks.loop(hours=1)
 async def update_database():
-    DBService().reset()
+    DBService().restart()
 
 @bot.event
 async def on_ready():
     update_database.start()
     print(f'Logged in as {bot.user.name}')
-
-
 
 async def main():
     async with bot:
@@ -34,7 +32,6 @@ async def main():
         await bot.add_cog(token_cog(bot))
         await bot.add_cog(trivia_cog(bot))
         await bot.start(token)
-
 
 if __name__ == '__main__':
     asyncio.run(main())
