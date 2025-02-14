@@ -11,7 +11,8 @@ class DBService:
 
         self.db = mysql.connect(**CONFIG['mysql'])
 
-    
+    def reset(self):
+        self.db = mysql.connect(**CONFIG['mysql'])
 
     def create_table(self, table_name, columns):
         cursor = self.db.cursor(buffered=True)
