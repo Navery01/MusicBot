@@ -7,6 +7,7 @@ from MusicBot.music import music_cog
 from MusicBot.event_cog import event_cog
 from MusicBot.token_cog import token_cog
 from MusicBot.trivia_cog import trivia_cog
+from MusicBot.db_service import DBService
 
 intents = discord.Intents.all()
 
@@ -15,8 +16,13 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 with open('token.txt', 'r') as file:
     token = file.read()
 
+@bot.loop(hours = 1)
+async def update_database():
+    DBService().reset()
+
 @bot.event
 async def on_ready():
+    update_database.start()
     print(f'Logged in as {bot.user.name}')
 
 
