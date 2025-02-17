@@ -11,10 +11,6 @@ var is_spinning
 
 var rotation_deg = 0
 var current_index = positions[0]
-var pos_base = load("res://Assets/wheel_pos/base.png")
-var pos_0 = load("res://Assets/wheel_pos/pos_0.png")
-var pos_1 = load("res://Assets/wheel_pos/pos_1.png")
-var pos_2 = load("res://Assets/wheel_pos/pos_2.png")
 
 var textures = {
 	'base':load("res://Assets/wheel_pos/base.png")\

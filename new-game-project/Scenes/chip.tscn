@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://jievbb8lf34r"]
+
+[ext_resource type="Texture2D" uid="uid://b022pfqfjb44h" path="res://Assets/chip.png" id="1_fwwqq"]
+[ext_resource type="Script" path="res://Scenes/chip.gd" id="1_l5sl5"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_c7diy"]
+radius = 101.079
+
+[node name="Chip" type="Area2D"]
+scale = Vector2(0.15, 0.15)
+script = ExtResource("1_l5sl5")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_fwwqq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_c7diy")
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]
