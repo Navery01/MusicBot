@@ -6,9 +6,11 @@ var mouse_offset
 var delay = 0.2
 var owner_id = '1234'
 var value = 25
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	drop_spots = get_tree().get_nodes_in_group("RouletteBet")
+
 	
 
 
@@ -29,7 +31,7 @@ func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 			is_dragging = false
 			for drop_spot in drop_spots:
 				if drop_spot.has_overlapping_areas() and drop_spot.get_overlapping_areas().has(self):
-					var snap_pos = drop_spot.position + Vector2(randi() % 15, randi() % 15)
+					var snap_pos = drop_spot.position
 					var tween = get_tree().create_tween()
 					tween.tween_property(self, "position", snap_pos, delay)
 
