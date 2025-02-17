@@ -8,10 +8,6 @@ extends Node2D
 @onready var wait_timer = $DelayTimer
 @onready var chip = preload("res://Scenes/chip.tscn")
 
-var bet_amt = 0
-var bet_spot = '-1'
-var bet_color = null
-var balance = 0
 
 var bet_positions
 
@@ -36,11 +32,8 @@ func _on_spin_timer_timeout():
 	print("Wheel Index: %s" % WHEEL.get_current_index()[0])
 	print("Wheel color: %s" % WHEEL.get_current_index()[1])
 	
-	if WHEEL.get_current_index()[1] == bet_color:
-		print('COLOR VICTORY')
 	
 	await wipe_chips()
-	$award.text = 'WINNINGS: $' + str(get_balance())
 
 func _on_wait_timer_timeout():
 	randomize()
@@ -54,7 +47,6 @@ func _on_wait_timer_timeout():
 	
 func lock_in_bet():
 	$SpinBox.apply()
-	bet_amt = int($SpinBox.value)
 	$SpinBox.editable = false
 	
 
@@ -66,11 +58,16 @@ func wipe_chips():
 			if obj.is_in_group("RouletteBet"):
 				area = obj
 		if area.is_in_group("RouletteBet"):
-			if area.get_value() == WHEEL.get_current_index()[0] or area.get_value() == WHEEL.get_current_index()[1]:
+			if area.get_value() == WHEEL.get_current_index()[0]:
 				for x in (1.0 / area.get_odds()) - 1:
-					var new_chip = create_chip(area.position + Vector2(randi() % 15, randi() % 15))
-					new_chip.retract($award.position + Vector2(randi() % 15, randi() % 15))
-				chip.retract($award.position + Vector2(randi() % 15, randi() % 15))
+					var new_chip = create_chip(area.position)
+					new_chip.retract($award.position)
+				chip.retract($award.position)
+			elif area.get_value() == WHEEL.get_current_index()[1]:
+				for x in (1.0 / area.get_odds()) - 1:
+					var new_chip = create_chip(area.position)
+					new_chip.retract($award.position)
+				chip.retract($award.position)
 				
 			else:
 				chip.queue_free()
@@ -81,6 +78,7 @@ func get_balance():
 	var chips = get_tree().get_nodes_in_group("Chip")
 	for chip in chips:
 		bal += chip.value
+
 	return bal
 		
 func create_chip(pos:Vector2):
@@ -93,4 +91,5 @@ func create_chip(pos:Vector2):
 
 func _on_spin_box_value_changed(value: float) -> void:
 	if value  > 0:
-		create_chip($award.position + Vector2(randi() % 15, randi() % 15))
+		var new_chip = create_chip($award.position)
+		new_chip.get_node("Sprite2D").position = Vector2(0, (int(value) / 25) * -5)

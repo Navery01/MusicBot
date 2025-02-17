@@ -16,13 +16,9 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 with open('token.txt', 'r') as file:
     token = file.read()
 
-@tasks.loop(hours=1)
-async def update_database():
-    DBService().restart()
 
 @bot.event
 async def on_ready():
-    update_database.start()
     print(f'Logged in as {bot.user.name}')
 
 async def main():
