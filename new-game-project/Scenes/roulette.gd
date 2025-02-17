@@ -6,21 +6,32 @@ extends Node2D
 @onready var waiting = true
 @onready var spin_timer = $SpinTimer
 @onready var wait_timer = $DelayTimer
+@onready var chip = preload("res://Scenes/chip.tscn")
 
+var bet_amt = 0
+var bet_spot = '-1'
+var bet_color = null
+var balance = 0
+
+var bet_positions
 
 func _ready() -> void:
 	WHEEL.spin_timer = spin_timer
 	wait_timer.start()
 	wait_timer.connect("timeout", _on_wait_timer_timeout)
 	spin_timer.connect("timeout", _on_spin_timer_timeout)
+	bet_positions = get_tree().get_nodes_in_group("RouletteBet")
+	
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	$Label.text = 'Time Left: %d' % spin_timer.time_left
 	$Label2.text = 'Next Spin In: %d' % wait_timer.time_left
-	
+	WHEEL.get_current_index()
 
 func _on_spin_timer_timeout():
 	wait_timer.start()
+	$SpinBox.editable = true
 	print("Wheel Rotation: %d" % WHEEL.rotation_deg)
 	print("Wheel Index: %s" % WHEEL.get_current_index()[0])
 	print("Wheel color: %s" % WHEEL.get_current_index()[1])
