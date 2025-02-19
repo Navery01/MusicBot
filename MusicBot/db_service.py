@@ -124,8 +124,6 @@ class DBService:
     
     def update_points(self, guild_id, user_id, points):
         num_pts = self.get_points(guild_id, user_id)
-        if num_pts < points:
-            return
         
         conn = mysql.connect(**CONFIG['mysql'])
         cursor = conn.cursor(buffered=True)
