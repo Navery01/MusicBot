@@ -8,6 +8,7 @@ from MusicBot.event_cog import event_cog
 from MusicBot.token_cog import token_cog
 from MusicBot.trivia_cog import trivia_cog
 from MusicBot.db_service import DBService
+from MusicBot.commands_cog import CommandCog
 
 intents = discord.Intents.all()
 
@@ -27,6 +28,7 @@ async def main():
         await bot.add_cog(event_cog(bot))
         await bot.add_cog(token_cog(bot))
         await bot.add_cog(trivia_cog(bot))
+        await bot.add_cog(CommandCog(bot))
         await bot.start(token)
 
 if __name__ == '__main__':
